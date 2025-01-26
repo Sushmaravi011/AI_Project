@@ -3,10 +3,11 @@ import speech_recognition as sr
 import datetime
 import wikipedia
 import webbrowser
+import time
 import os
 import random
 from playsound import *
-import time
+
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
 engine.setProperty('voice', voices[1].id)
@@ -14,7 +15,6 @@ engine.setProperty('voice', voices[1].id)
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
-
 def wish_me():
     hour = int(datetime.datetime.now().hour)
     if hour >= 0 and hour < 12:
@@ -24,6 +24,7 @@ def wish_me():
     else:
         speak("Good Evening")
     speak("I am your assistant, How can I assist you?")
+
 def take_command():
     r = sr.Recognizer()
     with sr.Microphone() as source:
@@ -39,13 +40,17 @@ def take_command():
         speak("Sorry, I didn't understand that. Could you say that again?")
         return "None"
     return query
+
 def play_song(song_path):
     try:
         print(f"Playing song from: {song_path}")
-        os.system(f"start wmplayer \"{song_path}\"")
+        os.system(f"start wmplayer \"{song_path}\"")        
+        time.sleep(10)
+        
     except Exception as e:
         print(f"Error playing the song: {e}")
         speak(f"There was an error while trying to play the song: {e}")
+
 def play_music():
     speak("What song would you like me to play?")
     music_dir = r'S:\Pattu_Song'
@@ -76,10 +81,11 @@ def play_music():
         speak("Would you like me to play another song?")
         query = take_command().lower()
         if 'no' in query or 'stop' in query:
-            speak("Goodbye! Stopping the music.")
+            speak("Ok I am waiting for your command!")
             break
         elif 'yes' not in query:
             speak("Sorry, I didn't catch that. Please say 'yes' to play another song or 'no' to stop.")
+
 def open_wikipedia(query):
     speak("What topic would you like to search on Wikipedia?")
     topic = take_command().lower()
@@ -91,7 +97,6 @@ def open_wikipedia(query):
         speak(f"I've opened Wikipedia for {topic}.")
     else:
         speak("Sorry, I didn't catch that. Please try again.")
-
 def open_youtube():
     speak("What song would you like me to play?")
     song_name = take_command().lower()
