@@ -121,9 +121,6 @@ if __name__ == "__main__":
         elif 'open google' in query:
             webbrowser.open("https://google.com")
 
-        elif 'open stackoverflow' in query:
-            webbrowser.open("https://stackoverflow.com")
-
         elif 'play music' in query or 'play song' in query:
             play_music()
             
